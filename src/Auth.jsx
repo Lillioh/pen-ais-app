@@ -1,6 +1,19 @@
 import { useState } from "react";
 import { supabase } from "./supabase";
 
+async function signInWithGoogle() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin,
+    },
+  });
+
+  if (error) {
+    alert(error.message);
+  }
+}
+
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +32,7 @@ export default function Auth() {
 
     if (error) alert(error.message);
   }
-
+  
   return (
     <div className="auth-page">
       <section className="auth-left">
@@ -48,8 +61,7 @@ export default function Auth() {
           <p>Access your digital atelier and continue your draft.</p>
 
           <div className="social-row">
-            <button>◎ Google</button>
-            <button>⌘ Apple</button>
+            <button onClick={signInWithGoogle}>◎ Google</button>
           </div>
 
           <div className="divider">
